@@ -7,10 +7,10 @@ Minimal, production‑ready example to post on LinkedIn using n8n (scheduled) an
 | Step | Area | What to do | Where |
 |------|------|------------|-------|
 | 1 | n8n install | Deploy n8n (Docker/Cloudflare Tunnel) | [n8n setup repo](https://github.com/enemy100/n8n-setup-on-raspberry-with-cloudflare-tunnel)
-| 2 | Notion | Create DB and properties (`Edition`, `Content`, `flow_status`, …) | docs/02-notion-setup.md |
-| 3 | Credentials | Add Notion token + LinkedIn OAuth2 in n8n | docs/01-linkedin-api.md |
-| 4 | Workflow | Import `n8n-workflows/linkedin-notion-posting.json` | n8n → Workflows → Import |
-| 5 | Extraction | Configure GitHub Actions to extract content and write to Notion | docs/04-github-actions.md |
+| 2 | Notion | Create DB and properties (`Edition`, `Content`, `flow_status`, …) | [docs/02-notion-setup.md](docs/02-notion-setup.md) |
+| 3 | Credentials | Add Notion token + LinkedIn OAuth2 in n8n | [docs/01-linkedin-api.md](docs/01-linkedin-api.md) |
+| 4 | Workflow | Import `n8n-workflows/linkedin-notion-posting.json` | [n8n-workflows/linkedin-notion-posting.json](n8n-workflows/linkedin-notion-posting.json) |
+| 5 | Extraction | Configure GitHub Actions to extract content and write to Notion | [docs/04-github-actions.md](docs/04-github-actions.md) |
 | 6 | Test | Put an item with `flow_status = START` in Notion and run once | n8n → Execute Workflow |
 | 7 | Schedule | Enable the n8n workflow to post daily | n8n → Toggle On |
 
@@ -42,10 +42,10 @@ Minimal, production‑ready example to post on LinkedIn using n8n (scheduled) an
 ## Setup pointers
 
 - n8n install: use your repository here → [n8n setup repo](https://github.com/enemy100/n8n-setup-on-raspberry-with-cloudflare-tunnel)
-- LinkedIn OAuth2 in n8n (no Python needed): `docs/01-linkedin-api.md`
-- Notion DB schema: `docs/02-notion-setup.md`
-- Import + minimal n8n config: `docs/03-n8n-setup.md`
-- GitHub Actions for extraction only: `docs/04-github-actions.md`
+- LinkedIn OAuth2 in n8n (no Python needed): [docs/01-linkedin-api.md](docs/01-linkedin-api.md)
+- Notion DB schema: [docs/02-notion-setup.md](docs/02-notion-setup.md)
+- Import + minimal n8n config: [docs/03-n8n-setup.md](docs/03-n8n-setup.md)
+- GitHub Actions for extraction only: [docs/04-github-actions.md](docs/04-github-actions.md)
 
 ## Security
 - Never commit secrets or `.env`

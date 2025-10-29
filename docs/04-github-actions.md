@@ -2,9 +2,11 @@
 
 Use Actions to extract content from external sites and write new items into Notion. n8n will post on its own schedule.
 
-## Secrets to set
-- `NOTION_API_TOKEN` – Notion integration token
-- (Optional) Any API keys your extractor needs
+## Where to configure Secrets
+- In your GitHub repo: Settings → Secrets and variables → Actions → "New repository secret"
+- Add at least:
+  - `NOTION_API_TOKEN` – your Notion integration token
+  - (Optional) any other API keys your extractor needs
 
 ## Example workflow: `.github/workflows/extract-content.yml`
 ```yaml
