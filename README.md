@@ -39,6 +39,10 @@ Minimal, production‑ready example to post on LinkedIn using n8n (scheduled) an
                  LinkedIn Post
 ```
 
+<img width="1482" height="520" alt="image" src="https://github.com/user-attachments/assets/beb8cf39-c1c0-43c1-9c67-2f4af338dff0" />
+
+
+
 ## Setup pointers
 
 - n8n install: use your repository here → [n8n setup repo](https://github.com/enemy100/n8n-setup-on-raspberry-with-cloudflare-tunnel)
