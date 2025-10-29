@@ -15,19 +15,6 @@ Use Actions to extract content from external sites and write new items into Noti
 - Copy the key (starts with `gsk_...`) and save it as `GROQ_API_KEY` in GitHub Secrets
 - Groq offers a free tier; limits may apply. See their pricing/usage page in the console
 
-## Bring the extractor into this repo
-Choose ONE:
-- Copy the folder `cybersecurity-daily-feed/` from your other project into this repo as `extractor/`
-  - Expected files: `extractor/sec-feed-extract.py`, `extractor/requirements.txt`, `extractor/Feed.csv`, `extractor/Config.txt`
-- Or add the other project as a submodule and adjust paths accordingly
-
-Example to copy (local):
-```bash
-# from your machine, in the repo root
-mkdir -p extractor
-# copy the four key files into extractor/
-```
-
 ## Example workflow: `.github/workflows/extract-content.yml`
 ```yaml
 name: Extract content to Notion
@@ -45,14 +32,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install deps (requirements or fallback)
+      - name: Install deps
         run: |
-          if [ -f extractor/requirements.txt ]; then
-            pip install -r extractor/requirements.txt
-          else
-            # Fallback minimal set used by the extractor
-            pip install feedparser groq requests python-dotenv sgmllib3k httpx pydantic
-          fi
+          pip install -r extractor/requirements.txt
       - name: Extract feeds → Notion (with Groq rewrite)
         env:
           NOTION_API_TOKEN: $${{ secrets.NOTION_API_TOKEN }}
