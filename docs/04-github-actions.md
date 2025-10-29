@@ -2,6 +2,10 @@
 
 Use Actions to extract content from external sites and write new items into Notion. n8n will post on its own schedule.
 
+## What are Feed.csv and Config.txt?
+- `extractor/Feed.csv`: your sources list. Each line is `URL,Name` and defines where the extractor pulls articles from.
+- `extractor/Config.txt`: per‑source checkpoint. It stores the last processed timestamp for each source and is updated automatically on every run.
+
 ## Where to configure Secrets
 - In your GitHub repo: Settings → Secrets and variables → Actions → "New repository secret"
 - Add at least:
