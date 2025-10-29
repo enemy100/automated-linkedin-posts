@@ -25,11 +25,12 @@ Recommended values:
 2) Add the properties listed above
 3) Share the database with your integration (Settings → Connections)
 
-## API access
+## API access (explicit steps)
 
-- Create an internal integration at https://www.notion.so/my-integrations
-- Copy the token (starts with `secret_...`)
-- Get your Database ID from the URL when the database is open
+- Create integration: https://www.notion.so/my-integrations → New integration → copy the token (`secret_...`)
+- Share database with integration: open the DB → ••• (top right) → Connections → add your integration
+- Get Database ID: open the DB and copy from the URL (or via “Copy link to view”); it’s the long ID in the URL
+- Store both in n8n credentials (Notion API)
 
 ## Example: create a page via API (Python)
 
@@ -94,6 +95,7 @@ NOT STARTED → START → DONE LINKEDIN
 
 - [ ] Database created and shared with the integration
 - [ ] Properties match the names used in the workflow
-- [ ] Integration token stored securely in n8n credentials
+- [ ] Notion token stored in n8n credentials
+- [ ] Database ID set in workflow/node configuration
 - [ ] Test create/query/update calls succeed
 

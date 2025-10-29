@@ -1,49 +1,22 @@
-# GitHub Actions – Configure, Variables, How to Run
+# GitHub Actions – Extraction and Triggers
 
-Use Actions to trigger your n8n webhook or run helper scripts on a schedule.
+Use Actions for two things:
+- Extract content from external sites and write into Notion
+- Trigger n8n via webhook to run the posting workflow
 
-## A) Trigger n8n via webhook (recommended)
+## A) Extraction workflow (example)
 
-1) Add a repo secret:
-- Settings → Secrets and variables → Actions → New repository secret
-- Name: `N8N_WEBHOOK_URL`
-- Value: your production webhook URL
+Secrets to set:
+- `NOTION_API_TOKEN` – Notion integration token
+- (Optional) Other API keys your extractor uses
 
-2) Create `.github/workflows/trigger-n8n.yml`:
+Example `.github/workflows/extract-content.yml`:
 ```yaml
-name: Trigger n8n Workflow
+name: Extract content to Notion
 
 on:
   schedule:
-    - cron: '0 9,17 * * 1-5'
-  workflow_dispatch:
-
-jobs:
-  trigger:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call n8n webhook
-        run: |
-          curl -fsS -X POST "$${{ secrets.N8N_WEBHOOK_URL }}" || exit 1
-```
-
-How to run:
-- Manual: Actions → Trigger n8n Workflow → Run workflow
-- Scheduled: runs at your cron times
-
-## B) Run helper script (if you need one)
-
-Secrets to set (examples):
-- `NOTION_API_TOKEN` (Notion)
-- `LINKEDIN_ACCESS_TOKEN` and `LINKEDIN_PROFILE_ID` (only if using a custom script, not needed for n8n node)
-
-Workflow: `.github/workflows/process-posts.yml`
-```yaml
-name: Process posts
-
-on:
-  schedule:
-    - cron: '0 * * * *'
+    - cron: '0 */2 * * *'   # every 2 hours
   workflow_dispatch:
 
 jobs:
@@ -55,16 +28,48 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install deps
-        run: pip install requests python-dotenv
-      - name: Execute
+        run: |
+          pip install -r projeto_linkedin/drop-news-main/cybersecurity-daily-feed/requirements.txt
+      - name: Extract feeds → Notion
         env:
           NOTION_API_TOKEN: $${{ secrets.NOTION_API_TOKEN }}
         run: |
-          python scripts/process_posts.py
+          python projeto_linkedin/drop-news-main/cybersecurity-daily-feed/sec-feed-extract.py
+```
+
+This job reads your `Feed.csv` and updates Notion with new items.
+
+## B) Trigger n8n webhook
+
+1) In n8n, add a Webhook Trigger node to either:
+   - the main posting workflow, or
+   - a tiny workflow that calls "Execute Workflow" for your posting flow.
+
+2) Copy the Production URL from the Webhook node panel (the URL looks like:
+   `https://<your-n8n-host>/webhook/<id>` or with path you set).
+
+3) Save it as a secret: `N8N_WEBHOOK_URL`.
+
+Workflow `.github/workflows/trigger-n8n.yml`:
+```yaml
+name: Trigger n8n Posting
+
+on:
+  schedule:
+    - cron: '30 9,17 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call n8n webhook
+        run: |
+          curl -fsS -X POST "$${{ secrets.N8N_WEBHOOK_URL }}" || exit 1
 ```
 
 Notes:
-- If you only use n8n, you likely just need option A (webhook)
-- Keep all tokens in GitHub Secrets (never commit `.env`)
-- Use `workflow_dispatch` for manual runs at any time
+- Keep all tokens in GitHub Secrets
+- If your n8n is behind Cloudflare Tunnel/Traefik, ensure the webhook URL is reachable publicly
+- You can combine A) extraction + B) trigger in the same workflow file (two jobs)
 
