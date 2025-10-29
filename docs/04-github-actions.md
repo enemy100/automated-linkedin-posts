@@ -65,13 +65,16 @@ jobs:
 - View runs and logs:
   - Actions tab → click the workflow run → view job logs and outputs
 
-How it works
-- The job runs on the cron schedule or manually with "Run workflow"
-- It reads your `Feed.csv`, uses Groq to rewrite/condense posts, and writes items into Notion
-- Your n8n workflow (scheduled) will pick up items with `flow_status = START` and post to LinkedIn
+## In 30 seconds: what it does
+- Reads sources from `extractor/Feed.csv`
+- For each source, fetches recent articles and ignores items older than 14 days
+- Uses Groq to rewrite/condense the article (model: `llama-3.1-70b-versatile`, fallback: `llama-3.1-8b-instant`)
+- Creates a page in Notion with the rewritten content and metadata
+- Updates `extractor/Config.txt` with the latest timestamp to avoid duplicates
 
-Notes
-- Keep all tokens in GitHub Secrets
-- Logs of each run appear in the Actions tab
-- Adjust the cron as needed (e.g., hourly, twice a day)
+## Why I don’t see new items in Notion?
+- Items older than 14 days are skipped by design
+- Items já processados (com timestamp >= no `Config.txt`) são ignorados
+- Verifique o Secret `NOTION_API_TOKEN` e se a Integration tem acesso ao database
+- Confira os logs: “Creating Notion page for: <title>” indica tentativa de criação
 
