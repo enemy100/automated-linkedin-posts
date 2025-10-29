@@ -336,13 +336,26 @@ def GetRssFromUrl(RssItem):
                                     {"role": "system", "content": prompt},
                                     {"role": "user", "content": f"Title: {title}\nDescription: {description}"}
                                 ],
-                                model="deepseek-r1-distill-llama-70b",
+                                model="llama-3.1-70b-versatile",
                                 temperature=0.5,
                                 max_tokens=500,
                                 top_p=0.9
                             )
                             break
                         except Exception as e:
+                            # Fallback to a lighter, widely available model if decommissioned/400
+                            if hasattr(e, 'status_code') and e.status_code == 400:
+                                chat_completion = client.chat.completions.create(
+                                    messages=[
+                                        {"role": "system", "content": prompt},
+                                        {"role": "user", "content": f"Title: {title}\nDescription: {description}"}
+                                    ],
+                                    model="llama-3.1-8b-instant",
+                                    temperature=0.5,
+                                    max_tokens=500,
+                                    top_p=0.9
+                                )
+                                break
                             if hasattr(e, 'status_code') and e.status_code == 429:
                                 wait_time = 20
                                 logger.warning(f"429 Too Many Requests. Waiting {wait_time} seconds before retry...")
