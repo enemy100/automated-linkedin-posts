@@ -8,9 +8,6 @@ Use Actions to extract content from external sites and write new items into Noti
   - `NOTION_API_TOKEN` – your Notion integration token
   - `GROQ_API_KEY` – Groq API key (the extractor uses LLM to rewrite/condense content)
   - (Optional) any other API keys your extractor needs
- 
-    <img width="805" height="202" alt="image" src="https://github.com/user-attachments/assets/a5d6184c-76b4-4629-9cde-c5a63937e174" />
-
 
 ## How to get a Groq API key (free tier available)
 - Create an account at: https://console.groq.com
@@ -18,8 +15,18 @@ Use Actions to extract content from external sites and write new items into Noti
 - Copy the key (starts with `gsk_...`) and save it as `GROQ_API_KEY` in GitHub Secrets
 - Groq offers a free tier; limits may apply. See their pricing/usage page in the console
 
-  <img width="1849" height="290" alt="image" src="https://github.com/user-attachments/assets/bfc96cbb-4194-4444-acc1-0e227ad3e9fa" />
+## Bring the extractor into this repo
+Choose ONE:
+- Copy the folder `cybersecurity-daily-feed/` from your other project into this repo as `extractor/`
+  - Expected files: `extractor/sec-feed-extract.py`, `extractor/requirements.txt`, `extractor/Feed.csv`, `extractor/Config.txt`
+- Or add the other project as a submodule and adjust paths accordingly
 
+Example to copy (local):
+```bash
+# from your machine, in the repo root
+mkdir -p extractor
+# copy the four key files into extractor/
+```
 
 ## Example workflow: `.github/workflows/extract-content.yml`
 ```yaml
@@ -38,15 +45,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install deps
+      - name: Install deps (requirements or fallback)
         run: |
-          pip install -r projeto_linkedin/drop-news-main/cybersecurity-daily-feed/requirements.txt
+          if [ -f extractor/requirements.txt ]; then
+            pip install -r extractor/requirements.txt
+          else
+            # Fallback minimal set used by the extractor
+            pip install feedparser groq requests python-dotenv sgmllib3k httpx pydantic
+          fi
       - name: Extract feeds → Notion (with Groq rewrite)
         env:
           NOTION_API_TOKEN: $${{ secrets.NOTION_API_TOKEN }}
           GROQ_API_KEY: $${{ secrets.GROQ_API_KEY }}
         run: |
-          python projeto_linkedin/drop-news-main/cybersecurity-daily-feed/sec-feed-extract.py
+          python extractor/sec-feed-extract.py
 ```
 
 ## Create and run from the GitHub UI
