@@ -32,6 +32,9 @@ Recommended values:
 - Get Database ID: open the DB and copy from the URL (or via “Copy link to view”); it’s the long ID in the URL
 - Store both in n8n credentials (Notion API)
 
+  <img width="1727" height="531" alt="image" src="https://github.com/user-attachments/assets/f97e4164-ec5a-4716-bbb7-f5c959fa63ee" />
+
+
 ## Example: create a page via API (Python)
 
 ```python
