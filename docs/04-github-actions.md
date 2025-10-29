@@ -1,15 +1,21 @@
-# GitHub Actions – Optional Automation
+# GitHub Actions – Configure, Variables, How to Run
 
-Use GitHub Actions to trigger your n8n workflow on a schedule or to run helper scripts.
+Use Actions to trigger your n8n webhook or run helper scripts on a schedule.
 
-## Option A: Trigger n8n webhook
+## A) Trigger n8n via webhook (recommended)
 
+1) Add a repo secret:
+- Settings → Secrets and variables → Actions → New repository secret
+- Name: `N8N_WEBHOOK_URL`
+- Value: your production webhook URL
+
+2) Create `.github/workflows/trigger-n8n.yml`:
 ```yaml
 name: Trigger n8n Workflow
 
 on:
   schedule:
-    - cron: '0 9,17 * * 1-5'  # 09:00 and 17:00 UTC on weekdays
+    - cron: '0 9,17 * * 1-5'
   workflow_dispatch:
 
 jobs:
@@ -18,19 +24,26 @@ jobs:
     steps:
       - name: Call n8n webhook
         run: |
-          curl -fsS -X POST "${{ secrets.N8N_WEBHOOK_URL }}" || exit 1
+          curl -fsS -X POST "$${{ secrets.N8N_WEBHOOK_URL }}" || exit 1
 ```
 
-Set `N8N_WEBHOOK_URL` in repo secrets.
+How to run:
+- Manual: Actions → Trigger n8n Workflow → Run workflow
+- Scheduled: runs at your cron times
 
-## Option B: Run helper script
+## B) Run helper script (if you need one)
 
+Secrets to set (examples):
+- `NOTION_API_TOKEN` (Notion)
+- `LINKEDIN_ACCESS_TOKEN` and `LINKEDIN_PROFILE_ID` (only if using a custom script, not needed for n8n node)
+
+Workflow: `.github/workflows/process-posts.yml`
 ```yaml
 name: Process posts
 
 on:
   schedule:
-    - cron: '0 * * * *'  # hourly
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -45,16 +58,13 @@ jobs:
         run: pip install requests python-dotenv
       - name: Execute
         env:
-          NOTION_API_TOKEN: ${{ secrets.NOTION_API_TOKEN }}
-          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
-          LINKEDIN_PROFILE_ID: ${{ secrets.LINKEDIN_PROFILE_ID }}
+          NOTION_API_TOKEN: $${{ secrets.NOTION_API_TOKEN }}
         run: |
           python scripts/process_posts.py
 ```
 
-## Tips
-
-- Prefer n8n’s Scheduler inside the workflow unless you specifically need CI
-- Keep all secrets in GitHub → Settings → Secrets and variables → Actions
-- Add notifications on failure (Slack, email) if the pipeline is critical
+Notes:
+- If you only use n8n, you likely just need option A (webhook)
+- Keep all tokens in GitHub Secrets (never commit `.env`)
+- Use `workflow_dispatch` for manual runs at any time
 

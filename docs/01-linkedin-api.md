@@ -1,95 +1,37 @@
-# LinkedIn API – Authentication and Posting
+# LinkedIn OAuth2 in n8n – Quick Setup
 
-This repo primarily uses the n8n LinkedIn node (OAuth2) to publish. This document provides:
-- A quick overview of LinkedIn OAuth2
-- A minimal Python example for reference/testing
-- Notes to align with the n8n LinkedIn node
+You don’t need Python to authenticate. Use n8n’s built‑in LinkedIn OAuth2 credential and the LinkedIn node.
 
-## OAuth2 overview
+## 1) Create a LinkedIn App (once)
+- Go to: https://www.linkedin.com/developers/apps → Create app
+- App name, logo, and company/page (if applicable)
+- Products: enable Marketing Developer Platform (for posting)
+- Note your Client ID and Client Secret
+- Add an OAuth Redirect URL: `https://<your-n8n-host>/rest/oauth2-credential/callback`
+  - Example (local dev): `http://localhost:5678/rest/oauth2-credential/callback`
 
-Basic flow:
-1) User visits LinkedIn authorization URL (scopes include `w_member_social`)
-2) After consent, LinkedIn redirects with a one‑time `code`
-3) Exchange `code` for an `access_token`
-4) Use Bearer token to call LinkedIn APIs
+## 2) Add the credential in n8n
+- In n8n: Settings → Credentials → New → "LinkedIn OAuth2 API"
+- Fill:
+  - Client ID: from your LinkedIn App
+  - Client Secret: from your LinkedIn App
+  - OAuth Redirect URL: must match what you configured in LinkedIn (see above)
+- Click "Connect" and complete the LinkedIn consent screen
 
-In n8n, this is handled for you by the LinkedIn OAuth2 credential. Open the credential, complete the consent flow, and n8n stores the token.
+That’s it. n8n stores the token and refreshes it when needed.
 
-## Python reference (optional)
+## 3) Use the LinkedIn node
+- In your workflow (rob-linkedin.json), open the "Publish on LinkedIn" node
+- Select the LinkedIn credential you just created
+- For text‑only posts: set `shareMediaCategory` to NONE
+- For posts with image: set `shareMediaCategory` to IMAGE and `binaryPropertyName` to `data`
 
-```python
-import requests
+## Common issues
+- 401/403: Re‑open the credential in n8n and re‑authorize
+- Redirect URL mismatch: ensure the n8n callback URL exactly matches the one in your LinkedIn App
+- Missing scope: ensure your app has Marketing Developer Platform and scope to post (w_member_social)
 
-CLIENT_ID = '...'
-CLIENT_SECRET = '...'
-REDIRECT_URI = 'https://yourapp.com/callback'
-
-# Authorization URL to open in a browser
-auth_url = (
-  'https://www.linkedin.com/oauth/v2/authorization?'
-  f'response_type=code&client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}'
-  '&state=xyz&scope=r_liteprofile%20w_member_social'
-)
-print(auth_url)
-
-# After getting ?code=..., exchange for token
-r = requests.post('https://www.linkedin.com/oauth/v2/accessToken', data={
-  'grant_type': 'authorization_code',
-  'code': 'CODE_FROM_CALLBACK',
-  'redirect_uri': REDIRECT_URI,
-  'client_id': CLIENT_ID,
-  'client_secret': CLIENT_SECRET,
-})
-print(r.status_code, r.json())
-```
-
-## Posting UGC (reference)
-
-n8n’s LinkedIn node abstracts this, but for reference:
-
-```python
-import requests
-
-def post_text(access_token, person_id, text):
-  url = 'https://api.linkedin.com/v2/ugcPosts'
-  headers = {
-    'Authorization': f'Bearer {access_token}',
-    'Content-Type': 'application/json',
-    'X-Restli-Protocol-Version': '2.0.0',
-  }
-  body = {
-    'author': f'urn:li:person:{person_id}',
-    'lifecycleState': 'PUBLISHED',
-    'specificContent': {
-      'com.linkedin.ugc.ShareContent': {
-        'shareCommentary': {'text': text},
-        'shareMediaCategory': 'NONE',
-      }
-    },
-    'visibility': {'com.linkedin.ugc.MemberNetworkVisibility': 'PUBLIC'}
-  }
-  r = requests.post(url, headers=headers, json=body)
-  print(r.status_code, r.text)
-```
-
-## Using n8n’s LinkedIn node
-
-- Add credential: LinkedIn OAuth2 → connect the account
-- For text‑only posts:
-  - `shareMediaCategory`: NONE
-- For posts with image:
-  - `shareMediaCategory`: IMAGE
-  - `binaryPropertyName`: data (ensure a `$binary.data` exists upstream)
-- Person/Page selection: choose the identity you’re posting as (your profile or a page)
-
-## Scopes and limits
-
-- Scopes: `w_member_social` required for posting to a member profile
-- Rate limits: expect standard LinkedIn API rate limiting; handle retries or backoff in your workflow
-
-## Links
-
-- LinkedIn API docs: https://learn.microsoft.com/en-us/linkedin/
-- UGC Post API: https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/ugc-post-api
+Links
+- LinkedIn Developers: https://www.linkedin.com/developers
 - n8n LinkedIn node: https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.linkedIn/
 
