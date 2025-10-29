@@ -8,6 +8,9 @@ Use Actions to extract content from external sites and write new items into Noti
   - `NOTION_API_TOKEN` – your Notion integration token
   - `GROQ_API_KEY` – Groq API key (the extractor uses LLM to rewrite/condense content)
   - (Optional) any other API keys your extractor needs
+ 
+    <img width="805" height="202" alt="image" src="https://github.com/user-attachments/assets/a5d6184c-76b4-4629-9cde-c5a63937e174" />
+
 
 ## How to get a Groq API key (free tier available)
 - Create an account at: https://console.groq.com
