@@ -2,15 +2,16 @@
 
 Already have n8n running? Skip to Import Workflow.
 
-If you need installation, use your existing guide (Docker/Cloudflare/Traefik). For reference in this environment you have a full guide at `~/Downloads/GUIA_INICIO.md` and `n8n.yaml`.
+If you need installation, use your repository (no inline docs here):
+- n8n install repo: https://github.com/enemy100/n8n-setup-on-raspberry-with-cloudflare-tunnel
 
 ## Import Workflow
-- In n8n, go to Workflows → Import from File
-- Select `../n8n-workflows/rob-linkedin.json`
-- Save
+- In n8n: Workflows → Import from File
+- Select: `n8n-workflows/linkedin-notion-posting.json`
+- Save the workflow
 
 ## Credentials to configure
-- Notion API → Internal Integration token
+- Notion API → Internal Integration token (connect your DB)
 - LinkedIn OAuth2 → Follow docs/01-linkedin-api.md (no Python needed)
 - (Optional) Freepik API → add header `x-freepik-api-key` to the HTTP Request node
 

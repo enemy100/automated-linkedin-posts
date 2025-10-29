@@ -1,16 +1,12 @@
-# GitHub Actions – Extraction and Triggers
+# GitHub Actions – Extraction Only (to Notion)
 
-Use Actions for two things:
-- Extract content from external sites and write into Notion
-- Trigger n8n via webhook to run the posting workflow
+Use Actions to extract content from external sites and write new items into Notion. n8n will post on its own schedule.
 
-## A) Extraction workflow (example)
-
-Secrets to set:
+## Secrets to set
 - `NOTION_API_TOKEN` – Notion integration token
-- (Optional) Other API keys your extractor uses
+- (Optional) Any API keys your extractor needs
 
-Example `.github/workflows/extract-content.yml`:
+## Example workflow: `.github/workflows/extract-content.yml`
 ```yaml
 name: Extract content to Notion
 
@@ -37,39 +33,13 @@ jobs:
           python projeto_linkedin/drop-news-main/cybersecurity-daily-feed/sec-feed-extract.py
 ```
 
-This job reads your `Feed.csv` and updates Notion with new items.
+How it works
+- The job runs on the cron schedule or manually with "Run workflow"
+- It reads your `Feed.csv` and writes items into Notion
+- Your n8n workflow (scheduled) will pick up items with `flow_status = START` and post to LinkedIn
 
-## B) Trigger n8n webhook
-
-1) In n8n, add a Webhook Trigger node to either:
-   - the main posting workflow, or
-   - a tiny workflow that calls "Execute Workflow" for your posting flow.
-
-2) Copy the Production URL from the Webhook node panel (the URL looks like:
-   `https://<your-n8n-host>/webhook/<id>` or with path you set).
-
-3) Save it as a secret: `N8N_WEBHOOK_URL`.
-
-Workflow `.github/workflows/trigger-n8n.yml`:
-```yaml
-name: Trigger n8n Posting
-
-on:
-  schedule:
-    - cron: '30 9,17 * * 1-5'
-  workflow_dispatch:
-
-jobs:
-  trigger:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call n8n webhook
-        run: |
-          curl -fsS -X POST "$${{ secrets.N8N_WEBHOOK_URL }}" || exit 1
-```
-
-Notes:
+Notes
 - Keep all tokens in GitHub Secrets
-- If your n8n is behind Cloudflare Tunnel/Traefik, ensure the webhook URL is reachable publicly
-- You can combine A) extraction + B) trigger in the same workflow file (two jobs)
+- Logs of each run appear in the Actions tab
+- Adjust the cron as needed (e.g., hourly, twice a day)
 
