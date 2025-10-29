@@ -1,0 +1,112 @@
+{
+  "description": "Schema do banco de dados Notion para posts automatizados",
+  "database_properties": {
+    "Edition": {
+      "type": "title",
+      "description": "Título do artigo/post",
+      "required": true
+    },
+    "Created time": {
+      "type": "date",
+      "description": "Data de criação do conteúdo",
+      "required": true
+    },
+    "Source": {
+      "type": "select",
+      "description": "Origem do conteúdo (feed RSS)",
+      "options": [
+        "Linux Journal",
+        "Red Hat Blog",
+        "GitHub Blog",
+        "Docker Blog",
+        "Kubernetes Blog",
+        "Elastic Blog",
+        "AWS DevOps Blog",
+        "Microsoft Azure DevOps",
+        "DigitalOcean Blog",
+        "Other"
+      ],
+      "required": true
+    },
+    "Content": {
+      "type": "rich_text",
+      "description": "Conteúdo completo do post com formatação",
+      "required": true
+    },
+    "Tags": {
+      "type": "multi_select",
+      "description": "Tags para controle de workflow",
+      "options": [
+        {
+          "name": "LinkedIn",
+          "color": "blue"
+        },
+        {
+          "name": "START",
+          "color": "green"
+        },
+        {
+          "name": "DONE LINKEDIN",
+          "color": "purple"
+        },
+        {
+          "name": "ERROR",
+          "color": "red"
+        },
+        {
+          "name": "Twitter",
+          "color": "blue"
+        },
+        {
+          "name": "Facebook",
+          "color": "gray"
+        }
+      ],
+      "required": true
+    },
+    "Keywords": {
+      "type": "rich_text",
+      "description": "Palavras-chave para hashtags",
+      "required": false
+    },
+    "flow_status": {
+      "type": "multi_select",
+      "description": "Status do processamento",
+      "options": [
+        {
+          "name": "NOT STARTED",
+          "color": "gray"
+        },
+        {
+          "name": "START",
+          "color": "yellow"
+        },
+        {
+          "name": "DONE LINKEDIN",
+          "color": "green"
+        },
+        {
+          "name": "ERROR",
+          "color": "red"
+        }
+      ],
+      "required": true
+    },
+    "Link": {
+      "type": "url",
+      "description": "Link original do artigo",
+      "required": false
+    }
+  },
+  "example_entry": {
+    "Edition": "Breaking: CVE-2024-4577 Critical PHP Vulnerability",
+    "Created time": "2025-01-15",
+    "Source": "GitHub Blog",
+    "Content": "🚨 Cybercriminals exploiting CVE-2024-4577...",
+    "Tags": ["LinkedIn", "START"],
+    "Keywords": "#Cybersecurity #InfoSec #IT",
+    "flow_status": ["START"],
+    "Link": "https://github.blog/..."
+  }
+}
+
