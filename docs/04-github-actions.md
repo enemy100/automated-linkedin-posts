@@ -18,6 +18,9 @@ Use Actions to extract content from external sites and write new items into Noti
 - Copy the key (starts with `gsk_...`) and save it as `GROQ_API_KEY` in GitHub Secrets
 - Groq offers a free tier; limits may apply. See their pricing/usage page in the console
 
+  <img width="1849" height="290" alt="image" src="https://github.com/user-attachments/assets/bfc96cbb-4194-4444-acc1-0e227ad3e9fa" />
+
+
 ## Example workflow: `.github/workflows/extract-content.yml`
 ```yaml
 name: Extract content to Notion
