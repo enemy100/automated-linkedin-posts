@@ -1,4 +1,4 @@
-name: Cybersecurity Feed Extractor
+name: Extract content to Notion
 
 on:
   schedule:
