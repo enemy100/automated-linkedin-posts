@@ -72,6 +72,9 @@ jobs:
 - Creates a page in Notion with the rewritten content and metadata
 - Updates `extractor/Config.txt` with the latest timestamp to avoid duplicates
 
+  <img width="1907" height="464" alt="image" src="https://github.com/user-attachments/assets/1ab377b9-7abe-425f-afa1-09868da9739c" />
+
+
 ## Why I don’t see new items in Notion?
 - Items older than 14 days are skipped by design
 - Items already processed (timestamp in `Config.txt` is newer or equal) are ignored
