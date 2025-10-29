@@ -1,0 +1,31 @@
+https://www.linuxjournal.com/feed,Linux Journal
+https://www.linux.com/feed/,Linux.com
+https://www.redhat.com/en/blog/feed,Red Hat Blog
+https://ubuntu.com/blog/feed,Ubuntu Blog
+https://www.suse.com/c/feed/,SUSE Blog
+https://www.linuxfoundation.org/feed/,Linux Foundation
+https://www.jenkins.io/feed.xml,Jenkins Blog
+https://about.gitlab.com/feed.xml,GitLab Blog
+https://github.blog/feed/,GitHub Blog
+https://circleci.com/blog/feed.xml,CircleCI Blog
+https://www.hashicorp.com/blog/feed.xml,HashiCorp Blog
+https://www.docker.com/blog/feed/,Docker Blog
+https://www.ibm.com/blogs/systems/feed/,IBM AIX Blog
+https://unix.stackexchange.com/feeds,Unix Stack Exchange
+https://www.ansible.com/blog/feed,Ansible Blog
+https://puppet.com/blog/feed/,Puppet Blog
+https://www.chef.io/blog/feed/,Chef Blog
+https://kubernetes.io/feed.xml,Kubernetes Blog
+https://www.hashicorp.com/blog/category/terraform/feed.xml,Terraform Blog
+https://aws.amazon.com/blogs/devops/feed/,AWS DevOps Blog
+https://devblogs.microsoft.com/devops/feed/,Microsoft Azure DevOps
+https://www.digitalocean.com/blog/rss,DigitalOcean Blog
+https://www.nginx.com/feed/,NGINX Blog
+https://www.elastic.co/blog/feed,Elastic Blog
+https://www.datadoghq.com/blog/rss/,Datadog Blog
+https://www.prometheus.io/blog/feed.xml,Prometheus Blog
+https://grafana.com/blog/feed.xml,Grafana Blog
+https://www.consul.io/blog/feed.xml,Consul Blog
+https://www.vaultproject.io/blog/feed.xml,Vault Blog
+https://www.nomadproject.io/blog/feed.xml,Nomad Blog
+https://www.packer.io/blog/feed.xml,Packer Blog
