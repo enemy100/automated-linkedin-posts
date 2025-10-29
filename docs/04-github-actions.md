@@ -74,7 +74,7 @@ jobs:
 
 ## Why I don’t see new items in Notion?
 - Items older than 14 days are skipped by design
-- Items já processados (com timestamp >= no `Config.txt`) são ignorados
-- Verifique o Secret `NOTION_API_TOKEN` e se a Integration tem acesso ao database
-- Confira os logs: “Creating Notion page for: <title>” indica tentativa de criação
+- Items already processed (timestamp in `Config.txt` is newer or equal) are ignored
+- Verify the `NOTION_API_TOKEN` secret and that the Integration has access to the database
+- Check the logs: “Creating Notion page for: <title>” indicates a create attempt
 
