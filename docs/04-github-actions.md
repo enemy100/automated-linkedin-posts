@@ -49,6 +49,24 @@ jobs:
           python projeto_linkedin/drop-news-main/cybersecurity-daily-feed/sec-feed-extract.py
 ```
 
+## Create and run from the GitHub UI
+
+- Create via UI:
+  1) Go to your repo → Actions tab
+  2) Click "set up a workflow yourself" (or "New workflow" → "set up a workflow yourself")
+  3) Paste the example YAML above and save as `.github/workflows/extract-content.yml`
+  4) Commit the new file to `main`
+
+- Run manually:
+  1) Actions tab → select "Extract content to Notion"
+  2) Click "Run workflow" → choose branch `main` → Run
+
+- Run on schedule:
+  - The job runs automatically at the cron you set (e.g., every 2 hours)
+
+- View runs and logs:
+  - Actions tab → click the workflow run → view job logs and outputs
+
 How it works
 - The job runs on the cron schedule or manually with "Run workflow"
 - It reads your `Feed.csv`, uses Groq to rewrite/condense posts, and writes items into Notion
