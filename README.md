@@ -2,36 +2,50 @@
 
 Minimal, production‑ready example to post on LinkedIn using n8n, Notion as content DB, and an optional GitHub Actions trigger.
 
-## Quick start
+## Quick start (visual)
 
-1) Notion database
-- Create a table with properties: `Edition` (Title), `Content` (Rich text), `flow_status` (Multi‑select: NOT STARTED, START, DONE LINKEDIN), and optional `Tags`, `Keywords`, `Link`.
-- Add at least one item with `flow_status = START` for testing.
+| Step | Area | What to do | Where |
+|------|------|------------|-------|
+| 1 | n8n install | Deploy n8n (Docker/Cloudflare Tunnel) | [n8n setup repo](https://github.com/enemy100/n8n-setup-on-raspberry-with-cloudflare-tunnel)
+| 2 | Notion | Create DB and properties (`Edition`, `Content`, `flow_status`, …) | docs/02-notion-setup.md |
+| 3 | Credentials | Add Notion token + LinkedIn OAuth2 in n8n | docs/01-linkedin-api.md |
+| 4 | Workflow | Import `n8n-workflows/rob-linkedin.json` | n8n → Workflows → Import |
+| 5 | Test | Put an item with `flow_status = START` in Notion and run once | n8n → Execute Workflow |
+| 6 | Schedule | Enable the workflow to post daily | n8n → Toggle On |
+| 7 | (Optional) CI | Trigger n8n via webhook on a schedule | docs/04-github-actions.md |
 
-2) n8n
-- Install n8n using your existing setup guide (you already have a working guide in your environment: `~/Downloads/GUIA_INICIO.md` and `n8n.yaml`).
-- Import the workflow: `n8n-workflows/rob-linkedin.json`.
-- Configure credentials:
-  - Notion (Internal Integration token)
-  - LinkedIn OAuth2 (see docs/01-linkedin-api.md; no Python needed)
-  - (Optional) Freepik API for image generation
-- Run once manually to test, then enable the schedule.
+## Flow overview (diagram)
 
-3) (Optional) GitHub Actions
-- Use a webhook trigger to tell n8n to run on a schedule (docs/04-github-actions.md).
+```
+┌────────────────────────────────────────────────────────────────────┐
+│                          Content Intake                            │
+│  (drop-news or manual) → Notion DB item (flow_status = START)       │
+└────────────────────────────────────────────────────────────────────┘
+                     │
+                     ▼ (scheduled or manual run)
+┌────────────────────────────────────────────────────────────────────┐
+│                              n8n                                    │
+│  1) Notion (Get All: 1 item with START)                             │
+│  2) Notion (Get: fetch blocks)                                      │
+│  3) Aggregate blocks → property_content                              │
+│  4) LLM rewrite → clean LinkedIn text                                │
+│  5) [Optional] Image branch:                                         │
+│     LLM prompt → Freepik → base64→binary → resize (≈1200×630)        │
+│  6) LinkedIn node → publish (OAuth2 credential)                      │
+│  7) Notion (Update) → flow_status = DONE LINKEDIN                    │
+└────────────────────────────────────────────────────────────────────┘
+                     │
+                     ▼
+                 LinkedIn Post
+```
 
-## Flow (rob-linkedin.json)
-- Schedule Trigger → Notion (Get All, 1 page, `START`) → Notion (Get) → Aggregate blocks
-- LLM rewrite (clean text for LinkedIn)
-- Optional image: LLM prompt → Freepik → convert base64 → resize → merge
-- LinkedIn node publishes using your OAuth2 credential
-- Notion status set to `DONE LINKEDIN`
+## Setup pointers
 
-## Docs
-- LinkedIn OAuth2 in n8n: `docs/01-linkedin-api.md`
-- Notion setup: `docs/02-notion-setup.md`
-- n8n setup (import + minimal config): `docs/03-n8n-setup.md`
-- GitHub Actions (optional): `docs/04-github-actions.md`
+- n8n install: use your repository here → [n8n setup repo](https://github.com/enemy100/n8n-setup-on-raspberry-with-cloudflare-tunnel)
+- LinkedIn OAuth2 in n8n (no Python needed): `docs/01-linkedin-api.md`
+- Notion DB schema: `docs/02-notion-setup.md`
+- Import + minimal n8n config: `docs/03-n8n-setup.md`
+- Optional CI trigger: `docs/04-github-actions.md`
 
 ## Security
 - Never commit secrets or `.env`
