@@ -6,7 +6,14 @@ Use Actions to extract content from external sites and write new items into Noti
 - In your GitHub repo: Settings → Secrets and variables → Actions → "New repository secret"
 - Add at least:
   - `NOTION_API_TOKEN` – your Notion integration token
+  - `GROQ_API_KEY` – Groq API key (the extractor uses LLM to rewrite/condense content)
   - (Optional) any other API keys your extractor needs
+
+## How to get a Groq API key (free tier available)
+- Create an account at: https://console.groq.com
+- Go to API Keys → "Create API Key"
+- Copy the key (starts with `gsk_...`) and save it as `GROQ_API_KEY` in GitHub Secrets
+- Groq offers a free tier; limits may apply. See their pricing/usage page in the console
 
 ## Example workflow: `.github/workflows/extract-content.yml`
 ```yaml
@@ -28,16 +35,17 @@ jobs:
       - name: Install deps
         run: |
           pip install -r projeto_linkedin/drop-news-main/cybersecurity-daily-feed/requirements.txt
-      - name: Extract feeds → Notion
+      - name: Extract feeds → Notion (with Groq rewrite)
         env:
           NOTION_API_TOKEN: $${{ secrets.NOTION_API_TOKEN }}
+          GROQ_API_KEY: $${{ secrets.GROQ_API_KEY }}
         run: |
           python projeto_linkedin/drop-news-main/cybersecurity-daily-feed/sec-feed-extract.py
 ```
 
 How it works
 - The job runs on the cron schedule or manually with "Run workflow"
-- It reads your `Feed.csv` and writes items into Notion
+- It reads your `Feed.csv`, uses Groq to rewrite/condense posts, and writes items into Notion
 - Your n8n workflow (scheduled) will pick up items with `flow_status = START` and post to LinkedIn
 
 Notes

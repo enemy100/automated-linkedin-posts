@@ -1,6 +1,6 @@
 # Automated LinkedIn Posts with n8n and Notion
 
-Minimal, production‑ready example to post on LinkedIn using n8n (scheduled) and Notion as content DB. GitHub Actions is used only to extract content into Notion.
+Minimal, production‑ready example to post on LinkedIn using n8n (scheduled) and Notion as content DB. GitHub Actions is used only to extract content into Notion, using Groq to rewrite/condense the article text before saving.
 
 ## Quick start (visual)
 
@@ -10,7 +10,7 @@ Minimal, production‑ready example to post on LinkedIn using n8n (scheduled) an
 | 2 | Notion | Create DB and properties (`Edition`, `Content`, `flow_status`, …) | [docs/02-notion-setup.md](docs/02-notion-setup.md) |
 | 3 | Credentials | Add Notion token + LinkedIn OAuth2 in n8n | [docs/01-linkedin-api.md](docs/01-linkedin-api.md) |
 | 4 | Workflow | Import `n8n-workflows/linkedin-notion-posting.json` | [n8n-workflows/linkedin-notion-posting.json](n8n-workflows/linkedin-notion-posting.json) |
-| 5 | Extraction | Configure GitHub Actions to extract content and write to Notion | [docs/04-github-actions.md](docs/04-github-actions.md) |
+| 5 | Extraction | Configure GitHub Actions to extract (Groq rewrite) and write to Notion | [docs/04-github-actions.md](docs/04-github-actions.md) |
 | 6 | Test | Put an item with `flow_status = START` in Notion and run once | n8n → Execute Workflow |
 | 7 | Schedule | Enable the n8n workflow to post daily | n8n → Toggle On |
 
@@ -19,7 +19,7 @@ Minimal, production‑ready example to post on LinkedIn using n8n (scheduled) an
 ```
 ┌────────────────────────────────────────────────────────────────────┐
 │                          Content Extraction                         │
-│  GitHub Actions (feeds) → Notion DB item (flow_status = START)      │
+│  GitHub Actions (feeds + Groq rewrite) → Notion (START)             │
 └────────────────────────────────────────────────────────────────────┘
                      │
                      ▼ (n8n scheduled run)
@@ -46,6 +46,8 @@ Minimal, production‑ready example to post on LinkedIn using n8n (scheduled) an
 - Notion DB schema: [docs/02-notion-setup.md](docs/02-notion-setup.md)
 - Import + minimal n8n config: [docs/03-n8n-setup.md](docs/03-n8n-setup.md)
 - GitHub Actions for extraction only: [docs/04-github-actions.md](docs/04-github-actions.md)
+- Groq API key: create at `https://console.groq.com` (free tier available), save as `GROQ_API_KEY` in GitHub Secrets
+- GitHub Secrets required for extraction: `NOTION_API_TOKEN`, `GROQ_API_KEY`
 
 ## Security
 - Never commit secrets or `.env`
