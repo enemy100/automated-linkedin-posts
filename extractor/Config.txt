@@ -2,12 +2,12 @@
 linux journal = ?
 linux.com = 2026-02-16T16:00:00
 red hat blog = ?
-ubuntu blog = 2026-03-06T11:55:30
+ubuntu blog = 2026-03-09T16:02:00
 suse blog = 2026-03-06T18:47:33
 linux foundation = ?
 jenkins blog = ?
 gitlab blog = ?
-github blog = 2026-03-06T21:09:04
+github blog = 2026-03-09T16:00:00
 circleci blog = 2026-03-05T16:00:00
 hashicorp blog = 2026-03-05T23:00:00
 docker blog = 2026-03-06T12:59:30
