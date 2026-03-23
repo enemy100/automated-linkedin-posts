@@ -2,7 +2,7 @@
 linux journal = ?
 linux.com = 2026-03-12T15:00:00
 red hat blog = ?
-ubuntu blog = 2026-03-20T10:17:49
+ubuntu blog = 2026-03-23T09:15:10
 suse blog = 2026-03-18T06:43:48
 linux foundation = ?
 jenkins blog = ?
@@ -12,7 +12,7 @@ circleci blog = 2026-03-18T16:25:00
 hashicorp blog = 2026-03-20T20:30:00
 docker blog = 2026-03-18T16:00:12
 ibm aix blog = ?
-unix stack exchange = 2026-03-23T00:04:14
+unix stack exchange = 2026-03-23T08:58:37
 ansible blog = ?
 puppet blog = ?
 chef blog = ?
