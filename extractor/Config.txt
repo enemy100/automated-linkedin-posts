@@ -2,7 +2,7 @@
 linux journal = ?
 linux.com = 2026-03-12T15:00:00
 red hat blog = ?
-ubuntu blog = 2026-04-07T16:26:53
+ubuntu blog = 2026-04-08T12:45:17
 suse blog = 2026-04-08T01:22:52
 linux foundation = ?
 jenkins blog = ?
