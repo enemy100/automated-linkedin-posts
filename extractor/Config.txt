@@ -2,7 +2,7 @@
 linux journal = ?
 linux.com = 2026-08-26T12:50:59
 red hat blog = ?
-ubuntu blog = 2026-09-23T08:37:00
+ubuntu blog = 2026-09-23T15:09:20
 suse blog = 2026-09-19T06:42:15
 linux foundation = ?
 jenkins blog = ?
@@ -22,7 +22,7 @@ aws devops blog = 2026-09-04T18:13:04
 microsoft azure devops = 2026-09-10T22:25:52
 digitalocean blog = 2026-07-30T17:10:40
 nginx blog = ?
-elastic blog = 2026-09-18T00:00:00
+elastic blog = 2026-09-23T00:00:00
 datadog blog = ?
 prometheus blog = 2026-09-21T00:00:00
 grafana blog = ?
