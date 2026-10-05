@@ -1,9 +1,9 @@
 [Rss]
 linux journal = ?
-linux.com = 2026-09-25T12:55:00
+linux.com = 2026-10-05T21:14:50
 red hat blog = ?
-ubuntu blog = 2026-10-02T11:59:10
-suse blog = 2026-10-05T06:37:17
+ubuntu blog = 2026-10-05T21:16:26
+suse blog = 2026-10-05T15:11:40
 linux foundation = ?
 jenkins blog = ?
 gitlab blog = ?
@@ -16,7 +16,7 @@ unix stack exchange = 2026-10-04T23:51:08
 ansible blog = ?
 puppet blog = ?
 chef blog = ?
-kubernetes blog = 2026-09-22T18:00:00
+kubernetes blog = 2026-10-05T18:00:00
 terraform blog = ?
 aws devops blog = 2026-10-05T15:46:02
 microsoft azure devops = 2026-10-01T12:27:54
