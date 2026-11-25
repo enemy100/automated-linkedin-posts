@@ -1,6 +1,6 @@
 [Rss]
 linux journal = ?
-linux.com = 2026-10-05T21:14:50
+linux.com = 2026-11-25T17:58:53
 red hat blog = ?
 ubuntu blog = 2026-11-23T10:00:00
 suse blog = 2026-10-05T15:11:40
@@ -10,9 +10,9 @@ gitlab blog = ?
 github blog = 2026-11-25T16:00:00
 circleci blog = 2026-11-19T16:00:00
 hashicorp blog = 2026-11-23T19:00:00
-docker blog = 2026-11-19T17:38:08
+docker blog = 2026-11-25T16:57:00
 ibm aix blog = ?
-unix stack exchange = 2026-11-25T10:30:52
+unix stack exchange = 2026-11-25T20:04:08
 ansible blog = ?
 puppet blog = ?
 chef blog = ?
